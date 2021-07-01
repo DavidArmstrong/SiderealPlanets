@@ -34,7 +34,7 @@ double decimalDegrees(int degrees, int minutes, float seconds)<br>
   Convert a number that is specified in degrees, minutes, and seconds to decimal degrees.  Note that this function will also handle hours as well as degrees.
 
 void printDegMinSecs(double n)<br>
-  Prints a double number of degrees to Serial in the form <deg>:<min>:<seconds>. The seconds may include a fractional part of two digits. If needed, a minus sign is printed in front of the number.  This will also work to print hours.  The numbers printed are not further formatted in any way.
+  Prints a double number of degrees to Serial in the form {deg}:{min}:{seconds}. The seconds may include a fractional part of two digits. If needed, a minus sign is printed in front of the number.  This will also work to print hours.  The numbers printed are not further formatted in any way.
 
 boolean setTimeZone(int zone)<br>
 boolean setTimeZone(float zone)<br>
