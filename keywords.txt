@@ -1,0 +1,96 @@
+########################################################
+# Syntax Coloring Map for Sidereal Planets Library     #
+########################################################
+
+#######################################
+# Class
+#######################################
+
+SiderealPlanets	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+decimalDegrees	KEYWORD2
+printDegMinSecs	KEYWORD2
+setTimeZone	KEYWORD2
+useAutoDST	KEYWORD2
+setDST	KEYWORD2
+rejectDST	KEYWORD2
+setLatLong	KEYWORD2
+setGMTdate	KEYWORD2
+setGMTtime	KEYWORD2
+setLocalTime	KEYWORD2
+getGMT	KEYWORD2
+getLT	KEYWORD2
+modifiedJulianDate1900	KEYWORD2
+getLocalSiderealTime	KEYWORD2
+getGMTsiderealTime	KEYWORD2
+doLST2LT	KEYWORD2
+doLST2GMT	KEYWORD2
+setElevationM	KEYWORD2
+setElevationF	KEYWORD2
+setRAdec	KEYWORD2
+setAltAz	KEYWORD2
+getRAdec	KEYWORD2
+getDeclinationDec	KEYWORD2
+getAltitude	KEYWORD2
+getAzimuth	KEYWORD2
+doRAdec2AltAz	KEYWORD2
+doAltAz2RAdec	KEYWORD2
+doNutation	KEYWORD2
+getDP	KEYWORD2
+getDO	KEYWORD2
+doObliquity	KEYWORD2
+setEcliptic	KEYWORD2
+getEclipticLongitude	KEYWORD2
+getEclipticLatitude	KEYWORD2
+doEcliptic2RAdec	KEYWORD2
+doPrecessFrom2000	KEYWORD2
+doPrecessTo2000	KEYWORD2
+doLunarParallax	KEYWORD2
+setEquatHorizontalParallax	KEYWORD2
+getEquatHorizontalParallax	KEYWORD2
+doRefractionF	KEYWORD2
+doRefractionC	KEYWORD2
+doAntiRefractionF	KEYWORD2
+doAntiRefractionC	KEYWORD2
+doAnomaly	KEYWORD2
+getTrueAnomaly	KEYWORD2
+doSun	KEYWORD2
+doMoon	KEYWORD2
+doPlanetElements	KEYWORD2
+getPL	KEYWORD2
+doPlans	KEYWORD2
+getHelioLong	KEYWORD2
+getHelioLat	KEYWORD2
+getRadiusVec	KEYWORD2
+getDistance	KEYWORD2
+doMercury	KEYWORD2
+doVenus	KEYWORD2
+doMars	KEYWORD2
+doJupiter	KEYWORD2
+doSaturn	KEYWORD2
+doUranus	KEYWORD2
+doNeptune	KEYWORD2
+doSunRiseSetTimes	KEYWORD2
+getSunriseTime	KEYWORD2
+getSunsetTime	KEYWORD2
+doMoonRiseSetTimes	KEYWORD2
+getMoonriseTime	KEYWORD2
+getMoonsetTime	KEYWORD2
+doRiseSetTimes	KEYWORD2
+getRiseTime	KEYWORD2
+getSetTime	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+
