@@ -3,7 +3,7 @@
 
 Sidereal Planets - A strangely named Arduino Library for various astronomy related functions
 
-  Version 1.0.0 - July 1, 2021
+  Version 1.0.1 - August 27, 2021
 
   By David Armstrong
   https://github.com/DavidArmstrong/SiderealPlanets
