@@ -3,7 +3,7 @@
 
 Sidereal Planets - A strangely named Arduino Library for various astronomy related functions
 
-  Version 1.0.1 - August 27, 2021
+  Version 1.1.0 - September 1, 2021
 
   By David Armstrong
   https://github.com/DavidArmstrong/SiderealPlanets
@@ -15,11 +15,12 @@ This library provides a core set of astronomy related functions, such as determi
 It is recommended that the user run all the example sketches in turn in on the target Arduino board, as they show how to use the library functions together to achieve some desired result.  The RegressionTests sketch was used in development of the library to validate each function as it was added, and is included for reference.  Finally, the DongAndPonyShow sketch is made to be used with TeraTerm and a uBlox based GPS unit.  It demonstrates how all these routines can be used together in a sample application.
 
 Notes:
-  1) The library requires support for double float numbers.  There are currently a number of boards that support true double type numbers, and use the Arduino IDE.  (i.e. The Sparkfun Redboard Turbo was used as the test platform in development.)  However the original UNO board, and similar derivitives, handle double numbers by mapping them to regular float types, and so these boards can't do the required calculation accuracy.  The library will check to see if that is the case.
-  2) While there may be better ways to implement some of the functionality of this library, the design makes it easier to verify the outputs, and easier to use.
-  3) A GPS unit is not reqired to use this library.  However using GPS hardware in your project can help automate input of local latitude, longitude, date, and Universal Time. (See the example sketch DogAndPonyShow.ino for a demonstration on doing this.)
-  4) The library, by itself, will not control a telescope or act as digital setting circles.  Those use cases can benefit from using this library, but because each hardware setup is different it is not feasible nor practical to extend this library to that level of complexity.
-  5) The library name was chosen to be different from any other astronomy type library that may be out there.  Library name uniqueness is important in Arduino sketches.  (That means that there isn't a function called Sidereal Planets here!)
+  1) The library recommends support for double float numbers.  There are currently a number of boards that support true double type numbers, and use the Arduino IDE.  (i.e. The Sparkfun Redboard Turbo was used as the test platform in development.)  However the original UNO board, and similar derivitives, handle double numbers by mapping them to regular float types, and so these boards will loose some calculation accuracy.  Example1 will check to see if that is the case.
+  2) The library is very large, about 60K in size.  So it will not fit in the small memory space of an Arduino Uno, for example.  However there are many boards available that do provide sufficient Flash space for this library to run.  Please check the memory constraints of your processor before attempting to load the library onto the system.
+  3) While there may be better ways to implement some of the functionality of this library, the design makes it easier to verify the outputs, and easier to use.
+  4) A GPS unit is not reqired to use this library.  However using GPS hardware in your project can help automate input of local latitude, longitude, date, and Universal Time. (See the example sketch DogAndPonyShow.ino for a demonstration on doing this.)
+  5) The library, by itself, will not control a telescope or act as digital setting circles.  Those use cases can benefit from using this library, but because each hardware setup is different it is not feasible nor practical to extend this library to that level of complexity.
+  6) The library name was chosen to be different from any other astronomy type library that may be out there.  Library name uniqueness is important in Arduino sketches.  (That means that there isn't a function called Sidereal Planets here!)
 
 ======================================
 
@@ -27,7 +28,7 @@ Basic Library Functions:<br>
 -- If a function returns a boolean value of false, it generally means something was wrong with the input given to the function.  Specifics are explained with each function.
 
 boolean begin()<br>
-  This initializes the library.  If a false value is returned, the system does not support a true double number type. 
+  This initializes the library.  As of version 1.1.0, it will always return a true value.  (This may change in a future version, if needed.)
 
 
 double decimalDegrees(int degrees, int minutes, float seconds)<br>

@@ -2,7 +2,7 @@
 SiderealPlanets.h
 Sidereal Planets Arduino Library Header File
 David Armstrong
-Version 1.0.1- August 27, 2021
+Version 1.1.0 - September 1, 2021
 https://github.com/DavidArmstrong/SiderealPlanets
 
 This file prototypes the SiderealPlanets class, as implemented in SiderealPlanets.cpp
@@ -151,18 +151,18 @@ class SiderealPlanets {
 	boolean obliquityDone, nutationDone, Ecl2RaDecDone, risetDone;
 	int GMTyear, GMTmonth, GMTday, GMTminute, GMThour;
 	float GMTseconds;
-	double SP_T, GMTtime, GMTsiderealTime, LocalSiderealTime;
+	double julianCenturies1900, GMTtime, GMTsiderealTime, LocalSiderealTime;
 	double seaLevelHeightMeters, EquatHorizontalParallax;
 	double RAdec, DeclinationDec, AltDec, AzDec;
 	double RArad, DeclinationRad, AltRad, AzRad;
 	double sinRA, sinDec, sinAlt, sinAz;
 	double cosRA, cosDec, cosAlt, cosAz;
-	double SP_mt[4][4], SP_mv[4][4]; //precession arrays
+	double precessionMatrix[4][4], otherPrecessionMatrix[4][4]; //precession arrays
     double trueAnomaly, eccentricAnomaly, meanAnomaly;
-	double SP_DP, SP_DO, SP_OB; //nutation, obliquity
-	double EclLongitude, EclLatitude, SP_SE, SP_CE, SP_AM, SP_SR, SP_RR, SP_AL;
-	double SP_AU, SP_AD, SP_LU, SP_LD, SP_L0, SP_S0, SP_P0, SP_V0, SP_PMpl;
-	double SP_PL[8][10]; //array for planetary elements
+	double nutationInLongitude, nutationInObliquity, obliquityEcliptic; //nutation, obliquity
+	double EclLongitude, EclLatitude, sineObliquity, cosineObliquity, SP_meanAnomaly, sunTrueGeocentricLongitude, sunEarthDistance, apparentEclipticLongitude;
+	double azimuthRising, azimuthSetting, localSiderealTimeRising, localSiderealTimeSetting, heliocenttricEclipticLongitude, heliocenttricEclipticLatitude, radiusVectorPlanet, distanceEarthNotCorrected, moonHorizontalParallax;
+	double planetaryOrbitalElements[8][10]; //array for planetary elements
 
     void doAutoDST(void);
 	byte calcLocalHour(int year, byte month, byte day, byte hour, byte offset);
