@@ -1,5 +1,5 @@
 /* Sidereal Planets Library - Moon functions
- * Version 1.0.0 - July 1, 2021
+ * Version 1.1.0 - September 1, 2021
  * Example5_Moon
 */
 
@@ -16,10 +16,7 @@ void setup() {
   Serial.begin(9600);
   delay(2000); //SAMD boards may need a long time to init SerialUSB
   Serial.println("Sidereal Planets Moon Functions");
-  if (myAstro.begin() == false) {
-	Serial.println("Target board does not handle Real Double numbers! Stopping...");
-	while(1); //Freeze
-  }
+  myAstro.begin();
   Serial.println("\nBecause these calculations are dependent on both time and location,");
   Serial.println("those values have to be set first.");
   Serial.println("We can use the decimalDegrees() function to make this easier.");

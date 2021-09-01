@@ -1,5 +1,5 @@
 /* Sidereal Planets regression test sketch
- * Version 1.0.0 - July 1, 2021
+ * Version 1.1.0 - September 1, 2021
  * RegressionTests - Used to validate library functionality
  * These are based on test data published in:
  * 'Astronomy With Your Personal Computer', Second Edition, 
@@ -20,11 +20,7 @@ void setup() {
   delay(5000); //SAMD boards may need a long time to init SerialUSB
   Serial.println("Sidereal Planets Regression Tests");
 
-  if (myAstro.begin() == false) {
-	Serial.println("Target board does not handle Real Double numbers!");
-  } else {
-	Serial.println("Sidereal Planets is okay with this board.");
-  }
+  myAstro.begin();
   Serial.println("\nCompute decimal degrees from DMS input");
   Serial.println("degrees 238 min 55 sec 10.02 = 238.91945");
   Serial.println(myAstro.decimalDegrees(238, 55, 10.02), 6);
