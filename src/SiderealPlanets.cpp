@@ -324,9 +324,9 @@ double SiderealPlanets::getGMT(void) {
 }
 
 double SiderealPlanets::getLT(void) {
-  double LT = GMTtime + TimeZoneOffset;
-  if (useDST) LT += 1;
-  return inRange24(LT);
+  double localStandardTime = GMTtime + TimeZoneOffset;
+  if (useDST) localStandardTime += 1;
+  return inRange24(localStandardTime);
 }
 
 double SiderealPlanets::getLocalSiderealTime(void) {
@@ -336,8 +336,8 @@ double SiderealPlanets::getLocalSiderealTime(void) {
 
 double SiderealPlanets::getGMTsiderealTime(void) {
   modifiedJulianDate1900();
-  double d = ((int)(mjd1900 - 0.5)) + 0.5;
-  double t = (d / 36525.0) - 1.;
+  double days = ((int)(mjd1900 - 0.5)) + 0.5;
+  double t = (days / 36525.0) - 1.;
   double r0 = t * (5.13366e-2 + (t * (2.586222e-5 - (t * 1.722e-9))));
   double r1 = 6.697374558 + (2400.0 * (t - ((GMTyear - 2000.0) / 100.0)));
   double t0 = inRange24(r0 + r1);
@@ -345,24 +345,24 @@ double SiderealPlanets::getGMTsiderealTime(void) {
   return GMTsiderealTime;
 }
 
-double SiderealPlanets::doLST2LT(double LST) {
+double SiderealPlanets::doLST2LT(double localSiderealTime) {
   //for computing rise/set times
   modifiedJulianDate1900();
-  double d = ((int)(mjd1900 - 0.5)) + 0.5;
-  double t = (d / 36525.0) - 1.;
+  double days = ((int)(mjd1900 - 0.5)) + 0.5;
+  double t = (days / 36525.0) - 1.;
   double r0 = t * (5.13366e-2 + (t * (2.586222e-5 - (t * 1.722e-9))));
   double r1 = 6.697374558 + (2400.0 * (t - ((GMTyear - 2000.0) / 100.0)));
   double t0 = inRange24(r0 + r1);
   double julianCenturies1900 = inRange24(t0 - (DSToffset + TimeZoneOffset) * 1.002737908);
-  double GSTdecimalhours = inRange24(LST - (decLong / 15.0));
+  double GSTdecimalhours = inRange24(localSiderealTime - (decLong / 15.0));
   if (GSTdecimalhours < julianCenturies1900) GSTdecimalhours += 24.;
   double localTimeDecimalHours = inRange24((GSTdecimalhours - julianCenturies1900) * 9.972695677e-1);
   return localTimeDecimalHours;
 }
 
-double SiderealPlanets::doLST2GMT(double LST) {
+double SiderealPlanets::doLST2GMT(double localSiderealTime) {
   //for computing rise/set times of Sun
-  return doLST2LT(LST) - (DSToffset + TimeZoneOffset);
+  return doLST2LT(localSiderealTime) - (DSToffset + TimeZoneOffset);
 }
 
 boolean SiderealPlanets::setElevationM(double height) {
@@ -891,14 +891,14 @@ double SiderealPlanets::getTrueAnomaly(void) {
 
 boolean SiderealPlanets::doSun(void) {
   julianCenturies1900 = (modifiedJulianDate1900() / 36525.0) + (getGMT() / 8.766e5);
-  double T2 = julianCenturies1900 * julianCenturies1900;
+  double T2_local = julianCenturies1900 * julianCenturies1900;
   double A_local = 1.000021359e2 * julianCenturies1900;
   double B_local = 360.0 * (A_local - floor(A_local));
-  double L_local = 2.7969668e2 + 3.025e-4 * T2 + B_local;
+  double L_local = 2.7969668e2 + 3.025e-4 * T2_local + B_local;
   A_local = 9.999736042e1 * julianCenturies1900;
   B_local = 360.0 * (A_local - floor(A_local));
-  meanAnomaly = 3.5847583e2 - (1.5e-4 + 3.3e-6 * julianCenturies1900) * T2 + B_local;
-  double eccentricity = 1.675104e-2 - 4.18e-5 * julianCenturies1900 - 1.26e-7 * T2;
+  meanAnomaly = 3.5847583e2 - (1.5e-4 + 3.3e-6 * julianCenturies1900) * T2_local + B_local;
+  double eccentricity = 1.675104e-2 - 4.18e-5 * julianCenturies1900 - 1.26e-7 * T2_local;
   doAnomaly(meanAnomaly, eccentricity);
   
   A_local = 6.255209472e1 * julianCenturies1900;
@@ -912,7 +912,7 @@ boolean SiderealPlanets::doSun(void) {
   double C1_local = deg2rad(312.69 + B_local);
   A_local = 1.236853095E3 * julianCenturies1900;
   B_local = 360.0 * (A_local - floor(A_local));
-  double D1_local = deg2rad(350.74 + 1.44e-3 * T2 + B_local);
+  double D1_local = deg2rad(350.74 + 1.44e-3 * T2_local + B_local);
   double E1_local = deg2rad(231.19 + 20.2 * julianCenturies1900);
   A_local = 1.831353208e2 * julianCenturies1900;
   B_local = 360.0 * (A_local- floor(A_local));
@@ -943,7 +943,7 @@ boolean SiderealPlanets::doSun(void) {
 
 boolean SiderealPlanets::doMoon(void) {
   julianCenturies1900 = (modifiedJulianDate1900() / 36525.0) + (getGMT() / 8.766e5);
-  double T2 = julianCenturies1900 * julianCenturies1900;
+  double T2_local = julianCenturies1900 * julianCenturies1900;
   double M1_local = 2.732158213e1;
   double M2_local = 3.652596407e2;
   double M3_local = 2.755455094e1;
@@ -963,12 +963,12 @@ boolean SiderealPlanets::doMoon(void) {
   M4_local = 360. * (M4_local - floor(M4_local));
   M5_local = 360. * (M5_local - floor(M5_local));
   M6_local = 360. * (M6_local - floor(M6_local));
-  double moonMeanLongitude = 2.70434164E2 + M1_local - (1.133E-3 - 1.9E-6 * julianCenturies1900) * T2;
-  double sunMeanAnomaly = 3.58475833E2 + M2_local - (1.5E-4 + 3.3E-6 * julianCenturies1900) * T2;
-  double moonMeanAnomaly = 2.96104608E2 + M3_local+(9.192E-3 + 1.44E-5 * julianCenturies1900) * T2;
-  double moonMeanElongation = 3.50737486E2 + M4_local - (1.436E-3 - 1.9E-6 * julianCenturies1900) * T2;
-  double moonMeanDistanceAcendingNode = 11.250889 + M5_local - (3.211E-3 + 3E-7 * julianCenturies1900) * T2;
-  double moonLongitudeAscendingNode = 2.59183275E2 - M6_local+(2.078E-3 + 2.2E-6 * julianCenturies1900) * T2;
+  double moonMeanLongitude = 2.70434164E2 + M1_local - (1.133E-3 - 1.9E-6 * julianCenturies1900) * T2_local;
+  double sunMeanAnomaly = 3.58475833E2 + M2_local - (1.5E-4 + 3.3E-6 * julianCenturies1900) * T2_local;
+  double moonMeanAnomaly = 2.96104608E2 + M3_local+(9.192E-3 + 1.44E-5 * julianCenturies1900) * T2_local;
+  double moonMeanElongation = 3.50737486E2 + M4_local - (1.436E-3 - 1.9E-6 * julianCenturies1900) * T2_local;
+  double moonMeanDistanceAcendingNode = 11.250889 + M5_local - (3.211E-3 + 3E-7 * julianCenturies1900) * T2_local;
+  double moonLongitudeAscendingNode = 2.59183275E2 - M6_local+(2.078E-3 + 2.2E-6 * julianCenturies1900) * T2_local;
   double A_local = deg2rad(51.2 + 20.2 * julianCenturies1900);
   double S1_local = sin(A_local);
   double S2_local = sin(deg2rad(moonLongitudeAscendingNode));
@@ -1598,8 +1598,8 @@ boolean SiderealPlanets::doSunRiseSetTimes(void) {
   GMTtime = tmpGMT;
   if (doRiseSetTimes(rad2deg(horizonVerticalDisplacement)) == false) return false;
   
-  double LA_local = localSiderealTimeRising; //LST of rising - first guesstimate
-  double LB_local = localSiderealTimeSetting; //LST of setting - first guesstimate
+  double LA_local = localSiderealTimeRising; //localSiderealTime of rising - first guesstimate
+  double LB_local = localSiderealTimeSetting; //localSiderealTime of setting - first guesstimate
   double GU_local = doLST2GMT(LA_local);
   double GD_local = doLST2GMT(LB_local);
   
@@ -1651,8 +1651,8 @@ boolean SiderealPlanets::doMoonRiseSetTimes(void) {
 	  return false;
   }
 
-  double LA_local = localSiderealTimeRising; //LST of rising - first guesstimate
-  double LB_local = localSiderealTimeSetting; //LST of setting - first guesstimate
+  double LA_local = localSiderealTimeRising; //localSiderealTime of rising - first guesstimate
+  double LB_local = localSiderealTimeSetting; //localSiderealTime of setting - first guesstimate
   for(int K_local=1; K_local <= 3; K_local++) {
     // local sidereal time to local civil time
     GU_local = doLST2GMT(LA_local);
