@@ -1,5 +1,5 @@
 /* Sidereal Planets Library - Sun functions
- * Version 1.0.0 - July 1, 2021
+ * Version 1.1.0 - September 1, 2021
  * Example10_Precession
 */
 
@@ -16,10 +16,7 @@ void setup() {
   Serial.begin(9600);
   delay(2000); //SAMD boards may need a long time to init SerialUSB
   Serial.println("Sidereal Planets Precession Functions\n");
-  if (myAstro.begin() == false) {
-	Serial.println("Target board does not handle Real Double numbers! Stopping...");
-	while(1); //Freeze
-  }
+  myAstro.begin();
   Serial.println("Example Precession from 1/0.9/1950 to 2/4/1990");
   myAstro.setGMTdate(1950,1,1);
   Serial.println("Input RA = 12 hr 12 min 12 sec, Dec = 23d 23 min 23 sec");

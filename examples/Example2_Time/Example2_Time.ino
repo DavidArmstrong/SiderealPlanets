@@ -1,5 +1,5 @@
 /* Sidereal Planets Library - Time functions
- * Version 1.0.0 - July 1, 2021
+ * Version 1.1.0 - September 1, 2021
  * Example2_Time
 */
 
@@ -16,10 +16,7 @@ void setup() {
   Serial.begin(9600);
   delay(2000); //SAMD boards may need a long time to init SerialUSB
   Serial.println("Sidereal Planets Time Functions");
-  if (myAstro.begin() == false) {
-	Serial.println("Target board does not handle Real Double numbers! Stopping...");
-	while(1); //Freeze
-  }
+  myAstro.begin();
   Serial.println("\nIt is best to start by setting the Latitude and Longitude.");
   Serial.println("We can use the decimalDegrees() function to make this easier.");
   myAstro.setLatLong(51.178889, myAstro.decimalDegrees(-148,31,52.33));

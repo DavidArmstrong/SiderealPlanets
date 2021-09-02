@@ -1,5 +1,5 @@
 /* Sidereal Planets Library - Sun functions
- * Version 1.0.0 - July 1, 2021
+ * Version 1.1.0 - September 1, 2021
  * Example9_AutoDST
 */
 
@@ -16,10 +16,7 @@ void setup() {
   Serial.begin(9600);
   delay(2000); //SAMD boards may need a long time to init SerialUSB
   Serial.println("Sidereal Planets Automatic DST Function\n");
-  if (myAstro.begin() == false) {
-	Serial.println("Target board does not handle Real Double numbers! Stopping...");
-	while(1); //Freeze
-  }
+  myAstro.begin();
   Serial.println("useAutoDST() activates an internal algorithm that determines when Daylight");
   Serial.println("Savings Time (DST) is in effect in the United States.  Do not call this");
   Serial.println("if you require manual control of DST.  (i.e. You live in Arizona, or are");

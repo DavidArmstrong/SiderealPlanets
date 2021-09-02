@@ -1,5 +1,5 @@
 /* Sidereal Planets Dog and Pony Show sketch
- * Version 1.0.0 - July 1, 2021
+ * Version 1.1.0 - September 1, 2021
  * Here we 'show off' the Sidereal Planets Library
  *
  * Requirement #1:
@@ -49,12 +49,7 @@ void setup() {
   TERMtextcolor('b');
   Serial.println("Sidereal Planets Dog-and-Pony-Show");
 
-  if (myAstro.begin() == false) {
-	Serial.println("Target board does not handle Real Double numbers! Stopping...");
-	while(1); //Freeze
-  } else {
-	Serial.println("Sidereal Planets is okay with this board.");
-  }
+  myAstro.begin();
   
   Serial.println("Checking for U-blox based GPS.");
   if (ubloxGPS.begin() == false) {
