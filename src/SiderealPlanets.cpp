@@ -2,7 +2,7 @@
 SiderealPlanets.cpp
 Sidereal Planets Arduino Library C++ source
 David Armstrong
-Version 1.1.0 - September 1, 2021
+Version 1.1.1 - February 8, 2022
 https://github.com/DavidArmstrong/SiderealPlanets
 
 Resources:
