@@ -2,7 +2,7 @@
 SiderealPlanets.cpp
 Sidereal Planets Arduino Library C++ source
 David Armstrong
-Version 1.1.0 - September 1, 2021
+Version 1.1.1 - February 8, 2022
 https://github.com/DavidArmstrong/SiderealPlanets
 
 Resources:
@@ -336,7 +336,7 @@ double SiderealPlanets::getLocalSiderealTime(void) {
 
 double SiderealPlanets::getGMTsiderealTime(void) {
   modifiedJulianDate1900();
-  double days = ((int)(mjd1900 - 0.5)) + 0.5;
+  double days = ((long)(mjd1900 - 0.5)) + 0.5;
   double t = (days / 36525.0) - 1.;
   double r0 = t * (5.13366e-2 + (t * (2.586222e-5 - (t * 1.722e-9))));
   double r1 = 6.697374558 + (2400.0 * (t - ((GMTyear - 2000.0) / 100.0)));
@@ -348,7 +348,7 @@ double SiderealPlanets::getGMTsiderealTime(void) {
 double SiderealPlanets::doLST2LT(double localSiderealTime) {
   //for computing rise/set times
   modifiedJulianDate1900();
-  double days = ((int)(mjd1900 - 0.5)) + 0.5;
+  double days = ((long)(mjd1900 - 0.5)) + 0.5;
   double t = (days / 36525.0) - 1.;
   double r0 = t * (5.13366e-2 + (t * (2.586222e-5 - (t * 1.722e-9))));
   double r1 = 6.697374558 + (2400.0 * (t - ((GMTyear - 2000.0) / 100.0)));
