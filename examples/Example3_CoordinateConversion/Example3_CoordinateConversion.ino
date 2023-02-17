@@ -1,13 +1,13 @@
 /* Sidereal Planets Library - Coordinate Conversion functions
- * Version 1.1.0 - September 1, 2021
+ * Version 1.2.0 - February 17, 2023
  * Example3_CoordinateConversion
 */
 
 #include <SiderealPlanets.h>
 
 // Need the following define for SAMD processors
-#if defined (ARDUINO_ARCH_SAMD)
-#define Serial SerialUSB
+#if defined(ARDUINO_SAMD_ZERO) && defined(SERIAL_PORT_USBVIRTUAL)
+#define Serial SERIAL_PORT_USBVIRTUAL
 #endif
 
 SiderealPlanets myAstro;
@@ -29,6 +29,12 @@ void setup() {
   myAstro.setLatLong(myAstro.decimalDegrees(38,55,0), myAstro.decimalDegrees(-77,0,0));
   myAstro.setGMTdate(1984,2,1);
   myAstro.setLocalTime(7,23,0);
+  Serial.print("Latitude: ");
+  myAstro.printDegMinSecs(myAstro.getLatitude());
+  Serial.println("");
+  Serial.print("Longitude: ");
+  myAstro.printDegMinSecs(myAstro.getLongitude());
+  Serial.println("");
   
   Serial.println("\nFrom that, we calculate:");
   Serial.print("GMT=12:23:00.0  ==> ");

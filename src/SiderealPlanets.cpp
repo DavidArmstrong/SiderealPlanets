@@ -2,7 +2,7 @@
 SiderealPlanets.cpp
 Sidereal Planets Arduino Library C++ source
 David Armstrong
-Version 1.1.1 - February 8, 2022
+Version 1.2.0 - February 17, 2023
 https://github.com/DavidArmstrong/SiderealPlanets
 
 Resources:
@@ -21,8 +21,8 @@ Distributed as-is; no warranty is given.
 #include "SiderealPlanets.h"
 
 // Need the following define for SAMD processors
-#if defined (ARDUINO_ARCH_SAMD)
-#define Serial SerialUSB
+#if defined(ARDUINO_SAMD_ZERO) && defined(SERIAL_PORT_USBVIRTUAL)
+#define Serial SERIAL_PORT_USBVIRTUAL
 #endif
 
 // Public Methods //////////////////////////////////////////////////////////
@@ -317,6 +317,14 @@ boolean SiderealPlanets::setLocalTime(int hours, int minutes, float seconds) {
   GMThour = hours - TimeZoneOffset;
   if (useDST) GMThour -= 1;
   return setGMTtime(inRange24(GMThour), minutes, seconds);
+}
+
+double SiderealPlanets::getLatitude(void) {
+  return decLat;
+}
+
+double SiderealPlanets::getLongitude(void) {
+  return decLong;
 }
 
 double SiderealPlanets::getGMT(void) {

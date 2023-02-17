@@ -3,7 +3,7 @@
 
 Sidereal Planets - A strangely named Arduino Library for various astronomy related functions
 
-  Version 1.1.1 - February 8, 2022
+  Version 1.2.0 - February 17, 2023
 
   By David Armstrong
   https://github.com/DavidArmstrong/SiderealPlanets
@@ -70,6 +70,12 @@ boolean setGMTtime(int hours, int minutes, int seconds)<br>
 
 boolean setLocalTime(int hours, int minutes, int seconds)<br>
   Sets the local time used in calculations.  If this is called, do not call setGMTtime(), and do not use the function useAutoDST().  The GMT date, Time Zone and Daylight Savings Time must be set before calling this function, so that GMT time can be calculated from the local time provided.
+
+double getLatitude()<br>
+  Returns Earth's latitude that is used in calculations.  The value is in degrees.  Latitude can range from -90. to +90.
+
+double getLongitude()<br>
+  Returns Earth's longitude that is used in calculations.  The value is in degrees.  Longitude can range from -180. to +180., with West of Greenwich, England being negative values.
 
 double getGMT()<br>
   Returns GMT as a double number of hours.  Either setGMTtime() or setLocalTime() has to be called first.

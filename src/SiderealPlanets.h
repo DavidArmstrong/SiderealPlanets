@@ -2,7 +2,7 @@
 SiderealPlanets.h
 Sidereal Planets Arduino Library Header File
 David Armstrong
-Version 1.1.0 - September 1, 2021
+Version 1.2.0 - February 17, 2023
 https://github.com/DavidArmstrong/SiderealPlanets
 
 This file prototypes the SiderealPlanets class, as implemented in SiderealPlanets.cpp
@@ -72,6 +72,8 @@ class SiderealPlanets {
 	boolean setGMTdate(int year, int month, int day);
     boolean setGMTtime(int hours, int minutes, float seconds);
     boolean setLocalTime(int hours, int minutes, float seconds);
+	double getLatitude(void);
+	double getLongitude(void);
 	double getGMT(void);
 	double getLT(void);
 	double modifiedJulianDate1900(void);
