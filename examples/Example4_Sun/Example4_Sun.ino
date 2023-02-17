@@ -1,13 +1,13 @@
 /* Sidereal Planets Library - Sun functions
- * Version 1.1.0 - September 1, 2021
+ * Version 1.2.0 - February 17, 2023
  * Example4_Sun
 */
 
 #include <SiderealPlanets.h>
 
 // Need the following define for SAMD processors
-#if defined (ARDUINO_ARCH_SAMD)
-#define Serial SerialUSB
+#if defined(ARDUINO_SAMD_ZERO) && defined(SERIAL_PORT_USBVIRTUAL)
+#define Serial SERIAL_PORT_USBVIRTUAL
 #endif
 
 SiderealPlanets myAstro;

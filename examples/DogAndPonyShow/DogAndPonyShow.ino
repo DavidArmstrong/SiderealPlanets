@@ -1,5 +1,5 @@
 /* Sidereal Planets Dog and Pony Show sketch
- * Version 1.1.0 - September 1, 2021
+ * Version 1.2.0 - February 17, 2023
  * Here we 'show off' the Sidereal Planets Library
  *
  * Requirement #1:
@@ -26,8 +26,8 @@ const int TZONE  = -8;  /* PST used for default */
 #include <SparkFun_u-blox_GNSS_Arduino_Library.h> //Click here to get the library: http://librarymanager/All#SparkFun_Ublox_GPS
 
 // Need the following define for SAMD processors
-#if defined (ARDUINO_ARCH_SAMD)
-#define Serial SerialUSB
+#if defined(ARDUINO_SAMD_ZERO) && defined(SERIAL_PORT_USBVIRTUAL)
+#define Serial SERIAL_PORT_USBVIRTUAL
 #endif
 
 const char positionmsg1[] = "        Current                Right";

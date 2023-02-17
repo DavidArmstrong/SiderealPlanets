@@ -1,5 +1,5 @@
 /* Sidereal Planets regression test sketch
- * Version 1.1.0 - September 1, 2021
+ * Version 1.2.0 - February 17, 2023
  * RegressionTests - Used to validate library functionality
  * These are based on test data published in:
  * 'Astronomy With Your Personal Computer', Second Edition, 
@@ -9,8 +9,8 @@
 #include <SiderealPlanets.h>
 
 // Need the following define for SAMD processors
-#if defined (ARDUINO_ARCH_SAMD)
-#define Serial SerialUSB
+#if defined(ARDUINO_SAMD_ZERO) && defined(SERIAL_PORT_USBVIRTUAL)
+#define Serial SERIAL_PORT_USBVIRTUAL
 #endif
 
 SiderealPlanets myAstro;
@@ -54,6 +54,12 @@ void setup() {
   Serial.println("Date: Mar 11, 1990  Local Time: 8:21:43.7");
   Serial.println("RESULTS...UT=17:21:43.7 GST=4:38:9.22 LST=18:44:1.73");
   myAstro.setLatLong(51.178889, myAstro.decimalDegrees(-148,31,52.33));
+  Serial.print("Latitude: ");
+  myAstro.printDegMinSecs(myAstro.getLatitude());
+  Serial.println("");
+  Serial.print("Longitude: ");
+  myAstro.printDegMinSecs(myAstro.getLongitude());
+  Serial.println("");
   myAstro.setTimeZone(-10);
   myAstro.setDST();
   myAstro.setGMTdate(1990,3,11);
@@ -79,6 +85,12 @@ void setup() {
   myAstro.setLatLong(myAstro.decimalDegrees(38,55,0), myAstro.decimalDegrees(-77,0,0));
   myAstro.setGMTdate(1984,2,1);
   myAstro.setLocalTime(7,23,0);
+  Serial.print("Latitude: ");
+  myAstro.printDegMinSecs(myAstro.getLatitude());
+  Serial.println("");
+  Serial.print("Longitude: ");
+  myAstro.printDegMinSecs(myAstro.getLongitude());
+  Serial.println("");
   myAstro.printDegMinSecs(myAstro.getGMT());
   myAstro.printDegMinSecs(myAstro.getGMTsiderealTime());
   myAstro.printDegMinSecs(myAstro.getLocalSiderealTime());

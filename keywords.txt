@@ -23,6 +23,8 @@ setLatLong	KEYWORD2
 setGMTdate	KEYWORD2
 setGMTtime	KEYWORD2
 setLocalTime	KEYWORD2
+getLatitude	KEYWORD2
+getLongitude	KEYWORD2
 getGMT	KEYWORD2
 getLT	KEYWORD2
 modifiedJulianDate1900	KEYWORD2
