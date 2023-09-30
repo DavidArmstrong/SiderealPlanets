@@ -1,5 +1,5 @@
 /* Sidereal Planets regression test sketch
- * Version 1.2.0 - February 17, 2023
+ * Version 1.3.0 - September 30, 2023
  * RegressionTests - Used to validate library functionality
  * These are based on test data published in:
  * 'Astronomy With Your Personal Computer', Second Edition, 
@@ -447,11 +447,14 @@ void setup() {
   myAstro.setLocalTime(0,0,0.0);
   Serial.println("Geo Ecliptic Long: 260:42:46.34, Lat: -0:45:28.16");
   Serial.println("RA: 17:19:20.65, Dec: -23:52:22.51");
+  Serial.println("Horizontal Parallax: 0:56:03.1, Illumination: 37 percent");
   myAstro.doMoon();
   myAstro.printDegMinSecs(myAstro.getEclipticLongitude());
   myAstro.printDegMinSecs(myAstro.getEclipticLatitude()); Serial.println("");
   myAstro.printDegMinSecs(myAstro.getRAdec());
-  myAstro.printDegMinSecs(myAstro.getDeclinationDec());
+  myAstro.printDegMinSecs(myAstro.getDeclinationDec()); Serial.println("");
+  myAstro.printDegMinSecs(myAstro.getEquatHorizontalParallax());
+  Serial.print(myAstro.getLunarLuminance());
   Serial.println("\n");
   
   Serial.println("Moon: DST, Time Zone = 6, LT = 11:42:20, Date: Aug 14, 1989");

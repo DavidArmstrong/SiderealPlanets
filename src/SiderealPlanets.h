@@ -2,7 +2,7 @@
 SiderealPlanets.h
 Sidereal Planets Arduino Library Header File
 David Armstrong
-Version 1.2.0 - February 17, 2023
+Version 1.3.0 - September 30, 2023
 https://github.com/DavidArmstrong/SiderealPlanets
 
 This file prototypes the SiderealPlanets class, as implemented in SiderealPlanets.cpp
@@ -102,6 +102,7 @@ class SiderealPlanets {
     boolean doPrecessFrom2000(void);
 	boolean doPrecessTo2000(void);
 	boolean doLunarParallax(void);
+	float getLunarLuminance();
 	boolean setEquatHorizontalParallax(double hp); //For testing only
 	double getEquatHorizontalParallax(void);
     boolean doRefractionF(double pressure, double temperature);
@@ -163,6 +164,7 @@ class SiderealPlanets {
     double trueAnomaly, eccentricAnomaly, meanAnomaly;
 	double nutationInLongitude, nutationInObliquity, obliquityEcliptic; //nutation, obliquity
 	double EclLongitude, EclLatitude, sineObliquity, cosineObliquity, SP_meanAnomaly, sunTrueGeocentricLongitude, sunEarthDistance, apparentEclipticLongitude;
+	double sunMeanAnomaly, moonMeanAnomaly, moonGeocentricEclipticLongitude, moonGeocentricEclipticLatitude;
 	double azimuthRising, azimuthSetting, localSiderealTimeRising, localSiderealTimeSetting, heliocenttricEclipticLongitude, heliocenttricEclipticLatitude, radiusVectorPlanet, distanceEarthNotCorrected, moonHorizontalParallax;
 	double planetaryOrbitalElements[8][10]; //array for planetary elements
 

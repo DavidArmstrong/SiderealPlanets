@@ -1,5 +1,5 @@
 /* Sidereal Planets Library - Moon functions
- * Version 1.2.0 - February 17, 2023
+ * Version 1.3.0 - September 30, 2023
  * Example5_Moon
 */
 
@@ -35,7 +35,9 @@ void setup() {
   Serial.println("");
   Serial.print("Declination = -23:52:22.51  ==> ");
   myAstro.printDegMinSecs(myAstro.getDeclinationDec());
-  Serial.println();
+  Serial.println("");
+  Serial.print("Fraction Illuminated = 37 percent  ==> ");
+  Serial.print(myAstro.getLunarLuminance());
   Serial.println("\n");
   
   Serial.println("We can also calculate Moon Rise/Set times.");
