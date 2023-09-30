@@ -2,7 +2,7 @@
 SiderealPlanets.cpp
 Sidereal Planets Arduino Library C++ source
 David Armstrong
-Version 1.2.0 - February 17, 2023
+Version 1.3.0 - September 30, 2023
 https://github.com/DavidArmstrong/SiderealPlanets
 
 Resources:
@@ -755,6 +755,34 @@ boolean SiderealPlanets::doLunarParallax(void) {
   return true;
 }
 
+float SiderealPlanets::getLunarLuminance() {
+  // Assumes user has called DoMoon() first, before calling this function
+  double tmpRArad, tmpRAdec, tmpDeclinationRad, tmpDeclinationDec;
+  float SD_local, CD_local, D_local, Irad, K_local, FMoon;
+  // Save off current RA/Dec, which we assume is for the Moon
+  tmpRArad = RArad;
+  tmpRAdec = RAdec;
+  tmpDeclinationRad = DeclinationRad;
+  tmpDeclinationDec = DeclinationDec;
+  
+  // Call Sun routine
+  doSun();
+  CD_local = cos(moonGeocentricEclipticLongitude - sunTrueGeocentricLongitude) * cos(moonGeocentricEclipticLatitude);
+  D_local = 1.570796327 - asin(CD_local);
+  SD_local =sin(D_local);
+  Irad = 1.468e-1 * SD_local * (1.0 - 5.49e-2 * sin(moonMeanAnomaly));
+  Irad = Irad / (1.0 - 1.67e-2 * sin(sunMeanAnomaly));
+  Irad = FPI - D_local - deg2rad(Irad);
+  K_local = (1.0 + cos(Irad)) / 2.0;
+  FMoon = int(K_local * 1000.0 + 0.5) / 1000.0;
+  // Restore RA/Dec
+  RArad = tmpRArad;
+  RAdec = tmpRAdec;
+  DeclinationRad = tmpDeclinationRad;
+  DeclinationDec = tmpDeclinationDec;
+  return FMoon * 100.0;
+}
+
 boolean SiderealPlanets::setEquatHorizontalParallax(double hp) {
   //This is here for testing only - not to be used in Real Life!
   //That's why it's left undocumented
@@ -972,8 +1000,8 @@ boolean SiderealPlanets::doMoon(void) {
   M5_local = 360. * (M5_local - floor(M5_local));
   M6_local = 360. * (M6_local - floor(M6_local));
   double moonMeanLongitude = 2.70434164E2 + M1_local - (1.133E-3 - 1.9E-6 * julianCenturies1900) * T2_local;
-  double sunMeanAnomaly = 3.58475833E2 + M2_local - (1.5E-4 + 3.3E-6 * julianCenturies1900) * T2_local;
-  double moonMeanAnomaly = 2.96104608E2 + M3_local+(9.192E-3 + 1.44E-5 * julianCenturies1900) * T2_local;
+  sunMeanAnomaly = 3.58475833E2 + M2_local - (1.5E-4 + 3.3E-6 * julianCenturies1900) * T2_local;
+  moonMeanAnomaly = 2.96104608E2 + M3_local+(9.192E-3 + 1.44E-5 * julianCenturies1900) * T2_local;
   double moonMeanElongation = 3.50737486E2 + M4_local - (1.436E-3 - 1.9E-6 * julianCenturies1900) * T2_local;
   double moonMeanDistanceAcendingNode = 11.250889 + M5_local - (3.211E-3 + 3E-7 * julianCenturies1900) * T2_local;
   double moonLongitudeAscendingNode = 2.59183275E2 - M6_local+(2.078E-3 + 2.2E-6 * julianCenturies1900) * T2_local;
@@ -1025,7 +1053,7 @@ boolean SiderealPlanets::doMoon(void) {
   L_local = L_local + 5.5E-4 * sin(moonMeanAnomaly + 4 * moonMeanElongation) + 5.38E-4 * sin(4. * moonMeanAnomaly);
   L_local = L_local + E_local * 5.21E-4 * sin(4. * moonMeanElongation - sunMeanAnomaly) + 4.86E-4 * sin(2. * moonMeanAnomaly - moonMeanElongation);
   L_local = L_local + E2_local * 7.17E-4 * sin(moonMeanAnomaly - 2. * sunMeanAnomaly);
-  double moonGeocentricEclipticLongitude = inRange2PI(moonMeanLongitude + deg2rad(L_local)); //Moon's geocentric ecliptic longitude
+  moonGeocentricEclipticLongitude = inRange2PI(moonMeanLongitude + deg2rad(L_local)); //Moon's geocentric ecliptic longitude
 
   double G_local = 5.128189 * sin(moonMeanDistanceAcendingNode) + 2.80606e-1 * sin(moonMeanAnomaly + moonMeanDistanceAcendingNode);
   G_local = G_local + 2.77693E-1 * sin(moonMeanAnomaly - moonMeanDistanceAcendingNode) + 1.73238E-1 * sin(2. * moonMeanElongation - moonMeanDistanceAcendingNode);
@@ -1054,7 +1082,7 @@ boolean SiderealPlanets::doMoon(void) {
   G_local = G_local + E2_local * 3.06E-4 * sin(2. * (moonMeanElongation - sunMeanAnomaly) - moonMeanDistanceAcendingNode) - 2.83E-4 * sin(moonMeanAnomaly + 3. * moonMeanDistanceAcendingNode);
   double W1 = 4.664E-4 * cos(moonLongitudeAscendingNode);
   double W2 = 7.54E-5 * cos(C_local);
-  double moonGeocentricEclipticLatitude = deg2rad(G_local) * (1.0 - W1 - W2); // Moon's geocentric ecliptic latitude
+  moonGeocentricEclipticLatitude = deg2rad(G_local) * (1.0 - W1 - W2); // Moon's geocentric ecliptic latitude
   moonHorizontalParallax = 9.50724E-1 + 5.1818E-2 * cos(moonMeanAnomaly) + 9.531E-3 * cos(2. * moonMeanElongation - moonMeanAnomaly);
   moonHorizontalParallax = moonHorizontalParallax + 7.843E-3 * cos(2. * moonMeanElongation) + 2.824E-3 * cos(2. * moonMeanAnomaly);
   moonHorizontalParallax = moonHorizontalParallax + 8.57E-4 * cos(2. * moonMeanElongation + moonMeanAnomaly) + E_local * 5.33E-4 * cos(2. * moonMeanElongation - sunMeanAnomaly);

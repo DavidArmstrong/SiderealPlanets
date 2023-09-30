@@ -3,7 +3,7 @@
 
 Sidereal Planets - A strangely named Arduino Library for various astronomy related functions
 
-  Version 1.2.0 - February 17, 2023
+  Version 1.3.0 - September 30, 2023
 
   By David Armstrong
   https://github.com/DavidArmstrong/SiderealPlanets
@@ -126,8 +126,11 @@ boolean doPrecessTo2000()<br>
   Does the precession calculation on the current values for Right Ascension and Declination, which are assumed to be using the curent date and time for their epoch. The coordinates are transformed to epoch 2000.0 coordinates. Returns a true value if Precession calculations were successful.
 
 boolean doLunarParallax()<br>
-  Adjusts the computed Right Ascension and Declination of the Moon based on the observers latitude and height above sea level to account for parallax.
+  Adjusts the computed Right Ascension and Declination of the Moon based on the observers latitude and height above sea level to account for parallax. The doMoon() function must be called before calling this function.
 
+float getLunarLuminance()<br>
+  Returns the percentage of the Moon that is illuminated by the Sun, as seen from Earth.   The doMoon() function must be called before calling this function.
+  
 boolean doRefractionF(double pressure, double temperature)<br>
   Adjusts altitude of an object for atmospheric refraction, based on the barometric pressure (inches of Mercury) and temperature (Farenheit) provided. The calculated output are the coordinates that one would find on a star chart.
 
