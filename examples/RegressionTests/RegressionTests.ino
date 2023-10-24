@@ -1,5 +1,5 @@
 /* Sidereal Planets regression test sketch
- * Version 1.3.0 - September 30, 2023
+ * Version 1.4.0 - October 24, 2023
  * RegressionTests - Used to validate library functionality
  * These are based on test data published in:
  * 'Astronomy With Your Personal Computer', Second Edition, 
@@ -455,6 +455,18 @@ void setup() {
   myAstro.printDegMinSecs(myAstro.getDeclinationDec()); Serial.println("");
   myAstro.printDegMinSecs(myAstro.getEquatHorizontalParallax());
   Serial.print(myAstro.getLunarLuminance());
+  Serial.println("\n");
+  Serial.print("Moon Phase = Crescent  ==> ");
+  switch (myAstro.getMoonPhase()) {
+      case 0: Serial.println("New"); break;
+	  case 1: Serial.println("Waxing Crescent"); break;
+	  case 2: Serial.println("First Quarter"); break;
+	  case 3: Serial.println("Waxing Gibbous"); break;
+	  case 4: Serial.println("Full"); break;
+	  case 5: Serial.println("Waning Gibbous"); break;
+	  case 6: Serial.println("Third Quarter"); break;
+	  case 7: Serial.println("Waning Crescent"); break;
+  }
   Serial.println("\n");
   
   Serial.println("Moon: DST, Time Zone = 6, LT = 11:42:20, Date: Aug 14, 1989");

@@ -54,6 +54,7 @@ doPrecessFrom2000	KEYWORD2
 doPrecessTo2000	KEYWORD2
 doLunarParallax	KEYWORD2
 getLunarLuminance KEYWORD2
+getMoonPhase KEYWORD2
 setEquatHorizontalParallax	KEYWORD2
 getEquatHorizontalParallax	KEYWORD2
 doRefractionF	KEYWORD2
