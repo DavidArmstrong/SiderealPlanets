@@ -809,13 +809,13 @@ int SiderealPlanets::getMoonPhase() {
   if (LunarIrradiance < 0.02) return 0; // New Moon
   if (LunarIrradiance > 0.98) return 4; // Full Moon
   if (modphase < (29.53059 / 2.)) {
-	if (LunarIrradiance < 0.45) return 1; // Waxing Crescent
+    if (LunarIrradiance < 0.45) return 1; // Waxing Crescent
     if (LunarIrradiance > 0.55) return 3; // Waxing Gibbous
-	return 2; // First quarter
+    return 2; // First quarter
   } else {
-	if (LunarIrradiance < 0.45) return 7; // Waning Crescent
+    if (LunarIrradiance < 0.45) return 7; // Waning Crescent
     if (LunarIrradiance > 0.55) return 5; // Waning Gibbous
-	return 6; // Third quarter
+    return 6; // Third quarter
   }
   return 0;
 }
