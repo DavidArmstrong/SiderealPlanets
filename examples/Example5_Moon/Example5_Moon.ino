@@ -1,5 +1,5 @@
 /* Sidereal Planets Library - Moon functions
- * Version 1.3.0 - September 30, 2023
+ * Version 1.4.0 - October 24, 2023
  * Example5_Moon
 */
 
@@ -38,6 +38,18 @@ void setup() {
   Serial.println("");
   Serial.print("Fraction Illuminated = 37 percent  ==> ");
   Serial.print(myAstro.getLunarLuminance());
+  Serial.println("\n");
+  Serial.print("Moon Phase = Crescent  ==> ");
+  switch (myAstro.getMoonPhase()) {
+    case 0: Serial.println("New"); break;
+    case 1: Serial.println("Waxing Crescent"); break;
+    case 2: Serial.println("First Quarter"); break;
+    case 3: Serial.println("Waxing Gibbous"); break;
+    case 4: Serial.println("Full"); break;
+    case 5: Serial.println("Waning Gibbous"); break;
+    case 6: Serial.println("Third Quarter"); break;
+    case 7: Serial.println("Waning Crescent"); break;
+  }
   Serial.println("\n");
   
   Serial.println("We can also calculate Moon Rise/Set times.");

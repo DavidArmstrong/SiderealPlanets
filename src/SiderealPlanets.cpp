@@ -2,7 +2,7 @@
 SiderealPlanets.cpp
 Sidereal Planets Arduino Library C++ source
 David Armstrong
-Version 1.3.0 - September 30, 2023
+Version 1.4.0 - October 24, 2023
 https://github.com/DavidArmstrong/SiderealPlanets
 
 Resources:
@@ -48,6 +48,8 @@ boolean SiderealPlanets::begin(void) {
   nutationDone = false;
   Ecl2RaDecDone = false;
   risetDone = false;
+  doMoonDone = false;
+  getLunarLuminanceDone = false;
   return true;
 }
 
@@ -431,6 +433,7 @@ boolean SiderealPlanets::setRAdec(double RightAscension, double Declination) {
   DeclinationRad = deg2rad(DeclinationDec);
   sinDec = sin(DeclinationRad);
   cosDec = cos(DeclinationRad);
+  doMoonDone = false;
   return true;
 }
 
@@ -756,9 +759,11 @@ boolean SiderealPlanets::doLunarParallax(void) {
 }
 
 float SiderealPlanets::getLunarLuminance() {
-  // Assumes user has called DoMoon() first, before calling this function
   double tmpRArad, tmpRAdec, tmpDeclinationRad, tmpDeclinationDec;
-  float SD_local, CD_local, D_local, Irad, K_local, FMoon;
+  float SD_local, CD_local, D_local, Irad, K_local;
+  
+  // Make sure called doMoon() first, before calling this function
+  if (!doMoonDone) doMoon();
   // Save off current RA/Dec, which we assume is for the Moon
   tmpRArad = RArad;
   tmpRAdec = RAdec;
@@ -774,13 +779,45 @@ float SiderealPlanets::getLunarLuminance() {
   Irad = Irad / (1.0 - 1.67e-2 * sin(sunMeanAnomaly));
   Irad = FPI - D_local - deg2rad(Irad);
   K_local = (1.0 + cos(Irad)) / 2.0;
-  FMoon = int(K_local * 1000.0 + 0.5) / 1000.0;
+  LunarIrradiance = int(K_local * 10000.0 + 0.5) / 10000.0;
   // Restore RA/Dec
   RArad = tmpRArad;
   RAdec = tmpRAdec;
   DeclinationRad = tmpDeclinationRad;
   DeclinationDec = tmpDeclinationDec;
-  return FMoon * 100.0;
+  doMoonDone = true;
+  getLunarLuminanceDone = true;
+  return LunarIrradiance * 100.0;
+}
+
+int SiderealPlanets::getMoonPhase() {
+  /*
+  0. New Moon
+  1. Waxing Crescent
+  2. First Quarter
+  3. Waxing Gibbous
+  4. Full Moon
+  5. Waning Gibbous
+  6. Third Quarter
+  7. Waning Crescent
+  */
+  // Make sure doMoon() called first, before calling this function
+  double modphase = fmod((modifiedJulianDate1900() - 45212.25), 29.53059);
+  if (modphase < 0.) modphase = fmod((29.53059 + modphase), 29.53059);
+  if (!doMoonDone) doMoon();
+  if (!getLunarLuminanceDone) getLunarLuminance();
+  if (LunarIrradiance < 0.02) return 0; // New Moon
+  if (LunarIrradiance > 0.98) return 4; // Full Moon
+  if (modphase < (29.53059 / 2.)) {
+    if (LunarIrradiance < 0.45) return 1; // Waxing Crescent
+    if (LunarIrradiance > 0.55) return 3; // Waxing Gibbous
+    return 2; // First quarter
+  } else {
+    if (LunarIrradiance < 0.45) return 7; // Waning Crescent
+    if (LunarIrradiance > 0.55) return 5; // Waning Gibbous
+    return 6; // Third quarter
+  }
+  return 0;
 }
 
 boolean SiderealPlanets::setEquatHorizontalParallax(double hp) {
@@ -1109,6 +1146,8 @@ boolean SiderealPlanets::doMoon(void) {
   EclLongitude = deg2rad(SP_AL);
   EclLatitude = moonGeocentricEclipticLatitude;
   doEcliptic2RAdec();
+  doMoonDone = true;
+  getLunarLuminanceDone = false;
   return true;
 }
 
@@ -1211,6 +1250,7 @@ boolean SiderealPlanets::doPlans(int planetNumber) {
   double  VA_local, VB_local, VC_local, VD_local, VE_local, VF_local, VG_local, VH_local, VI_local, VJ_local, VK_local;
   
   if (planetNumber < 1 || planetNumber > 7) return false; //bad planet value
+  doMoonDone = false;
   doPlanetElements();
   double lightTravelTime = 0.;
   doSun();

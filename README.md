@@ -3,7 +3,7 @@
 
 Sidereal Planets - A strangely named Arduino Library for various astronomy related functions
 
-  Version 1.3.0 - September 30, 2023
+  Version 1.4.0 - October 24, 2023
 
   By David Armstrong
   https://github.com/DavidArmstrong/SiderealPlanets
@@ -129,8 +129,19 @@ boolean doLunarParallax()<br>
   Adjusts the computed Right Ascension and Declination of the Moon based on the observers latitude and height above sea level to account for parallax. The doMoon() function must be called before calling this function.
 
 float getLunarLuminance()<br>
-  Returns the percentage of the Moon that is illuminated by the Sun, as seen from Earth.   The doMoon() function must be called before calling this function.
-  
+  Returns the percentage of the Moon that is illuminated by the Sun, as seen from Earth. If the doMoon() function is not called before calling this function, it will be called internally.
+
+int getMoonPhase()<br>
+  Returns an integer which can be interpreted to represent what the Phase of the Moon is for the last doMoon() call.  If the doMoon() function is not called before calling this function, it will be called internally. The return value represents the following:<br>
+  0. New Moon<br>
+  1. Waxing Crescent<br>
+  2. First Quarter<br>
+  3. Waxing Gibbous<br>
+  4. Full Moon<br>
+  5. Waning Gibbous<br>
+  6. Third Quarter<br>
+  7. Waning Crescent
+
 boolean doRefractionF(double pressure, double temperature)<br>
   Adjusts altitude of an object for atmospheric refraction, based on the barometric pressure (inches of Mercury) and temperature (Farenheit) provided. The calculated output are the coordinates that one would find on a star chart.
 
@@ -171,10 +182,10 @@ boolean doMoonRiseSetTimes()<br>
   Computes the local times for moonrise and moonset for the current date.  The results are stored internally, and must be retrieved by calls to getMoonriseTime() and getMoonsetTime().  If a value of false is returned, the Moon never sets or rises on the current GMT date at this location on the earth.
 
 double getMoonriseTime()<br>
-  Returns the local time for sunrise for a previously specified date.  The time is in hours since midnight.
+  Returns the local time for moonrise for a previously specified date.  The time is in hours since midnight.
 
 double getMoonsetTime()<br>
-  Returns the local time for sunset for a previously specified date.  The time is in hours since midnight.
+  Returns the local time for moonset for a previously specified date.  The time is in hours since midnight.
 
 boolean doRiseSetTimes(double displacement)<br>
   For a provided Right Ascension and Declination, and provided a vertical displacement in degrees, this will calculate the times for rising and setting of that position.  Vertical displacement is used to account for objects that have some visible size to them, like a planet.  For a star, it can be set to zero (0.0 degrees).  The results are stored internally, and must be retrieved by calls to getRiseTime() and getSetTime().  If a value of false is returned, that sky position never sets or rises at this location on the earth.
