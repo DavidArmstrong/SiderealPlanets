@@ -458,14 +458,14 @@ void setup() {
   Serial.println("\n");
   Serial.print("Moon Phase = Crescent  ==> ");
   switch (myAstro.getMoonPhase()) {
-      case 0: Serial.println("New"); break;
-	  case 1: Serial.println("Waxing Crescent"); break;
-	  case 2: Serial.println("First Quarter"); break;
-	  case 3: Serial.println("Waxing Gibbous"); break;
-	  case 4: Serial.println("Full"); break;
-	  case 5: Serial.println("Waning Gibbous"); break;
-	  case 6: Serial.println("Third Quarter"); break;
-	  case 7: Serial.println("Waning Crescent"); break;
+    case 0: Serial.println("New"); break;
+    case 1: Serial.println("Waxing Crescent"); break;
+    case 2: Serial.println("First Quarter"); break;
+    case 3: Serial.println("Waxing Gibbous"); break;
+    case 4: Serial.println("Full"); break;
+    case 5: Serial.println("Waning Gibbous"); break;
+    case 6: Serial.println("Third Quarter"); break;
+    case 7: Serial.println("Waning Crescent"); break;
   }
   Serial.println("\n");
   
