@@ -83,7 +83,9 @@ doSunRiseSetTimes	KEYWORD2
 getSunriseTime	KEYWORD2
 getSunsetTime	KEYWORD2
 doMoonRiseSetTimes	KEYWORD2
+getMoonRiseValidFlag	KEYWORD2
 getMoonriseTime	KEYWORD2
+getMoonSetValidFlag	KEYWORD2
 getMoonsetTime	KEYWORD2
 doRiseSetTimes	KEYWORD2
 getRiseTime	KEYWORD2

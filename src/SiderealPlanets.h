@@ -2,7 +2,7 @@
 SiderealPlanets.h
 Sidereal Planets Arduino Library Header File
 David Armstrong
-Version 1.4.0 - October 24, 2023
+Version 1.5.0 - January 4, 2025
 https://github.com/DavidArmstrong/SiderealPlanets
 
 This file prototypes the SiderealPlanets class, as implemented in SiderealPlanets.cpp
@@ -11,7 +11,7 @@ Resources:
 Uses math.h for math functions
 
 Development environment specifics:
-Arduino IDE 1.8.13
+Arduino IDE 2.3.4
 Teensy loader - untested
 
 This code is released under the [MIT License](http://opensource.org/licenses/MIT)
@@ -135,7 +135,9 @@ class SiderealPlanets {
 	double getSunriseTime(void);
 	double getSunsetTime(void);
 	boolean doMoonRiseSetTimes(void);
+	boolean getMoonRiseValidFlag(void);
 	double getMoonriseTime(void);
+	boolean getMoonSetValidFlag(void);
 	double getMoonsetTime(void);
 	void printDegMinSecs(double n);
 	
@@ -155,6 +157,7 @@ class SiderealPlanets {
 	boolean obliquityDone, nutationDone, Ecl2RaDecDone, risetDone;
 	boolean doMoonDone; // Keep track if doMoon() has been called
 	boolean getLunarLuminanceDone; // Keep track if getLunarLuminance() has been called
+	boolean moonRiseValidFlag, moonSetValidFlag;
 	int GMTyear, GMTmonth, GMTday, GMTminute, GMThour;
 	float GMTseconds;
 	double julianCenturies1900, GMTtime, GMTsiderealTime, LocalSiderealTime;

@@ -2,14 +2,14 @@
 SiderealPlanets.cpp
 Sidereal Planets Arduino Library C++ source
 David Armstrong
-Version 1.4.0 - October 24, 2023
+Version 1.5.0 - January 4, 2025
 https://github.com/DavidArmstrong/SiderealPlanets
 
 Resources:
 Uses math.h for math function
 
 Development environment specifics:
-Arduino IDE 1.8.13
+Arduino IDE 2.3.4
 Teensy loader - untested
 
 This code is released under the [MIT License](http://opensource.org/licenses/MIT).
@@ -1713,10 +1713,14 @@ double SiderealPlanets::getSunsetTime(void) {
 }
 
 boolean SiderealPlanets::doMoonRiseSetTimes(void) {
-  double DN_local, horizonVerticalDisplacement, A_local, TH_local, AA_local, AB_local, GU_local, GD_local;
+  double DN_local, horizonVerticalDisplacement, A_local, TH_local, AA_local, AB_local;
+  double GU_local = 0.;
+  double GD_local = 0.;
+  double G1_local = 0.;
+  double G2_local = 0.;
   double tmpGMT = GMTtime;
   GMTtime = (12.0 + (TimeZoneOffset + DSToffset)); //Set to local mid-day
-  
+
   //local rise-set routine
   doMoon(); //Already does nutation too
   TH_local = 2.7249e-1 * sin(moonHorizontalParallax);
@@ -1727,14 +1731,21 @@ boolean SiderealPlanets::doMoonRiseSetTimes(void) {
 	  return false;
   }
 
+  moonRiseValidFlag = true;
+  moonSetValidFlag = true;
   double LA_local = localSiderealTimeRising; //localSiderealTime of rising - first guesstimate
   double LB_local = localSiderealTimeSetting; //localSiderealTime of setting - first guesstimate
-  for(int K_local=1; K_local <= 3; K_local++) {
+
+  for (int K_local=1; K_local <= 3; K_local++) {
+	G1_local = GU_local;
     // local sidereal time to local civil time
     GU_local = doLST2GMT(LA_local);
+
+    G2_local = GD_local;
     // local sidereal time to local civil time
     GD_local = doLST2GMT(LB_local);
-	//find a better time of rising
+
+    //find a better time of rising
     GMTtime = GU_local;
     // find time
     DN_local = mjd1900;
@@ -1746,10 +1757,10 @@ boolean SiderealPlanets::doMoonRiseSetTimes(void) {
     TH_local = 2.7249e-1 * sin(moonHorizontalParallax);
     horizonVerticalDisplacement = TH_local + 9.8902e-3 - moonHorizontalParallax;
     if (doRiseSetTimes(rad2deg(horizonVerticalDisplacement)) == false) {
-		mjd1900=DN_local;
-		GMTtime = tmpGMT;
-		return false;
-	}
+      mjd1900 = DN_local;
+      GMTtime = tmpGMT;
+      return false;
+    }
     mjd1900=DN_local;
     //find a better time of setting
     LA_local = localSiderealTimeRising;
@@ -1765,24 +1776,38 @@ boolean SiderealPlanets::doMoonRiseSetTimes(void) {
     TH_local = 2.7249e-1 * sin(moonHorizontalParallax);
     horizonVerticalDisplacement = TH_local + 9.8902e-3 - moonHorizontalParallax;
     if (doRiseSetTimes(rad2deg(horizonVerticalDisplacement)) == false) {
-		mjd1900=DN_local;
-		GMTtime = tmpGMT;
-		return false;
-	}
+      mjd1900 = DN_local;
+      GMTtime = tmpGMT;
+      return false;
+    }
     mjd1900=DN_local;
     LB_local = localSiderealTimeSetting;
     //AB_local = azimuthSetting;
   }
   //azimuthRising = AA_local;
   //azimuthSetting = AB_local;
+  if ( fabs( GU_local - G1_local ) > 6.0 ) {
+    moonRiseValidFlag = false;
+  }
   localSiderealTimeRising = LA_local;
+  if ( fabs( GD_local - G2_local ) > 6.0 ) {
+    moonSetValidFlag = false;
+  }
   localSiderealTimeSetting = LB_local;
   GMTtime = tmpGMT;
   return true;
 }
 
+boolean SiderealPlanets::getMoonRiseValidFlag(void) {
+  return moonRiseValidFlag;
+}
+
 double SiderealPlanets::getMoonriseTime(void) {
   return getRiseTime();
+}
+
+boolean SiderealPlanets::getMoonSetValidFlag(void) {
+  return moonSetValidFlag;
 }
 
 double SiderealPlanets::getMoonsetTime(void) {
