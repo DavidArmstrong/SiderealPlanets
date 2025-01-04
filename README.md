@@ -3,7 +3,7 @@
 
 Sidereal Planets - A strangely named Arduino Library for various astronomy related functions
 
-  Version 1.4.0 - October 24, 2023
+  Version 1.5.0 - January 4, 2025
 
   By David Armstrong
   https://github.com/DavidArmstrong/SiderealPlanets
@@ -181,8 +181,14 @@ double getSunsetTime()<br>
 boolean doMoonRiseSetTimes()<br>
   Computes the local times for moonrise and moonset for the current date.  The results are stored internally, and must be retrieved by calls to getMoonriseTime() and getMoonsetTime().  If a value of false is returned, the Moon never sets or rises on the current GMT date at this location on the earth.
 
+boolean getMoonRiseValidFlag()<br>
+	Returns true value of the last computed Moon rise time is valid.  A false value means that there is no valid Moon rise time for the computed date.
+
 double getMoonriseTime()<br>
   Returns the local time for moonrise for a previously specified date.  The time is in hours since midnight.
+
+boolean getMoonSetValidFlag()<br>
+	Returns true value of the last computed Moon set time is valid.  A false value means that there is no valid Moon set time for the computed date.
 
 double getMoonsetTime()<br>
   Returns the local time for moonset for a previously specified date.  The time is in hours since midnight.

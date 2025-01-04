@@ -1,5 +1,5 @@
 /* Sidereal Planets Dog and Pony Show sketch
- * Version 1.2.0 - February 17, 2023
+ * Version 1.5.0 - January 4, 2025
  * Here we 'show off' the Sidereal Planets Library
  *
  * Requirement #1:
@@ -192,8 +192,16 @@ void loop() {
   TERMxy(44,line); printDegMinSecs2(myAstro.getDeclinationDec());
   TERMxy(55,line);
   if (myAstro.doMoonRiseSetTimes()) {
-    printTime(myAstro.getMoonriseTime());
-    printTime(myAstro.getMoonsetTime());
+    if ( myAstro.getMoonRiseValidFlag() ) {
+      printTime(myAstro.getMoonriseTime());
+    } else {
+      Serial.print(" xxxx ");
+    }
+    if ( myAstro.getMoonSetValidFlag() ) {
+      printTime(myAstro.getMoonsetTime());
+    } else {
+      Serial.print(" xxxx ");
+    }
   } else {
     Serial.print("No rise/set times");
   }

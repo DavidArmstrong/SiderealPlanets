@@ -1,5 +1,5 @@
 /* Sidereal Planets Library - Moon functions
- * Version 1.4.0 - October 24, 2023
+ * Version 1.5.0 - January 4, 2025
  * Example5_Moon
 */
 
@@ -53,7 +53,8 @@ void setup() {
   Serial.println("\n");
   
   Serial.println("We can also calculate Moon Rise/Set times.");
-  Serial.println("We set: DST off, Time Zone = 0, Date: Jan 7,1984");
+  Serial.println("Example #1:");
+  Serial.println("We set: DST off, Time Zone = 0, Date: Jan 7, 1984");
   Serial.println("Longitude = 0:0:0; Latitude = 30:0:0");
   
   myAstro.rejectDST();
@@ -63,11 +64,69 @@ void setup() {
   myAstro.doMoonRiseSetTimes();
   Serial.println("\nOur results should be or are:");
   Serial.print("Local MoonRise=9:58:1.46  ==> ");
-  myAstro.printDegMinSecs(myAstro.getMoonriseTime());
+  if ( myAstro.getMoonRiseValidFlag() ) {
+    myAstro.printDegMinSecs(myAstro.getMoonriseTime());
+  } else {
+    Serial.print("No valid Moon Rise time.");
+  }
   Serial.println("");
   Serial.print("Local MoonSet=21:8:59.44  ==> ");
-  myAstro.printDegMinSecs(myAstro.getMoonsetTime());
+  if ( myAstro.getMoonSetValidFlag() ) {
+    myAstro.printDegMinSecs(myAstro.getMoonsetTime());
+  } else {
+    Serial.print("No valid Moon Set time.");
+  }
+  Serial.println("\n");
+
+  Serial.println("Example #2:");
+  Serial.println("We set: DST off, Time Zone = 0, Date: Jan 11, 1984");
+  Serial.println("Longitude = 0:0:0; Latitude = 35:30:0");
+  
+  myAstro.rejectDST();
+  myAstro.setTimeZone(0);
+  myAstro.setLatLong(myAstro.decimalDegrees(35,30,0), myAstro.decimalDegrees(0,0,0));
+  myAstro.setGMTdate(1984,1,11);
+  myAstro.doMoonRiseSetTimes();
+  Serial.println("\nOur results should be or are:");
+  Serial.print("Local MoonRise=11:52:1.46  ==> ");
+  if ( myAstro.getMoonRiseValidFlag() ) {
+    myAstro.printDegMinSecs(myAstro.getMoonriseTime());
+  } else {
+    Serial.print("No valid Moon Rise time.");
+  }
   Serial.println("");
+  Serial.print("Local MoonSet=XX:XX:XX:  ==> ");
+  if ( myAstro.getMoonSetValidFlag() ) {
+    myAstro.printDegMinSecs(myAstro.getMoonsetTime());
+  } else {
+    Serial.print("No valid Moon Set time.");
+  }
+  Serial.println("\n");
+
+  Serial.println("Example #3:");
+  Serial.println("We set: DST off, Time Zone = 0, Date: 2 Feb, 2024");
+  Serial.println("Longitude = -0:30:0; Latitude = 35:30:0");
+  
+  myAstro.rejectDST();
+  myAstro.setTimeZone(0);
+  myAstro.setLatLong(myAstro.decimalDegrees(35,30,0), -myAstro.decimalDegrees(0,30,0));// (-) before is for negative coord
+  myAstro.setGMTdate(2024,2,2);
+  myAstro.doMoonRiseSetTimes();
+  Serial.println("\nOur results should be or are:");
+  Serial.print("Local MoonRise=XX:XX:XX  ==> ");
+  if ( myAstro.getMoonRiseValidFlag() ) {
+    myAstro.printDegMinSecs(myAstro.getMoonriseTime());
+  } else {
+    Serial.print("No valid Moon Rise time.");
+  }
+  Serial.println("");
+  Serial.print("Local MoonSet=10:44:10:  ==> ");
+  if ( myAstro.getMoonSetValidFlag() ) {
+    myAstro.printDegMinSecs(myAstro.getMoonsetTime());
+  } else {
+    Serial.print("No valid Moon Set time.");
+  }
+  Serial.println("\n");
 }
 
 void loop() {
