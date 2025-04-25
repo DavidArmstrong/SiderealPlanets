@@ -287,7 +287,11 @@ boolean SiderealPlanets::setGMTdate(int year, int month, int day) {
 }
 
 boolean SiderealPlanets::setGMTtime(int hours, int minutes, float seconds) {
-  if (GMThour == hours && GMTminute == minutes && GMTseconds == seconds) return true; //Already done
+  //if (GMThour == hours && GMTminute == minutes && GMTseconds == seconds) return true; //Already done
+  //After setLocalTime() (GMThour == hours) is always true, but GMTtime might still be at another hour.
+  // If you return from here, the new GMTtime will not be set in line 307, so GMThour and GMTtime might have different hours. 
+  // This produced the error in Issue #8 on 2023-10-01. The time was set to 23-00-00, but the above if statement was true and GMTtime not set as expected.
+  */
   if (hours < 0 || hours > 23)
 	return false;
   else
