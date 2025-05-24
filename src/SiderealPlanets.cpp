@@ -2,7 +2,7 @@
 SiderealPlanets.cpp
 Sidereal Planets Arduino Library C++ source
 David Armstrong
-Version 1.5.0 - January 4, 2025
+Version 1.6.0 - May 24, 2025
 https://github.com/DavidArmstrong/SiderealPlanets
 
 Resources:
@@ -287,19 +287,15 @@ boolean SiderealPlanets::setGMTdate(int year, int month, int day) {
 }
 
 boolean SiderealPlanets::setGMTtime(int hours, int minutes, float seconds) {
-  if (GMThour == hours && GMTminute == minutes && GMTseconds == seconds) return true; //Already done
-  if (hours < 0 || hours > 23)
-	return false;
-  else
-	GMThour = hours;
-  if (minutes < 0 || minutes > 59)
-	return false;
-  else
-	GMTminute = minutes;
-  if (seconds < 0. || seconds > 59.999999999)
-	return false;
-  else
-	GMTseconds = seconds;
+  // Because of a possible side effect if setLocalTime() is used to call this function, the following redundancy check has to be bypassed.
+  //if (GMThour == hours && GMTminute == minutes && GMTseconds == seconds) return true; //Already done
+  // Do sanity checks on inputs first before making any changes to variables
+  if (hours < 0 || hours > 23) return false;
+  if (minutes < 0 || minutes > 59) return false;
+  if (seconds < 0. || seconds > 59.999999999) return false;
+  GMThour = hours;
+  GMTminute = minutes;
+  GMTseconds = seconds;
   GmtTimeInput = true;
   doAutoDST();
   GMTtime = GMThour + (GMTminute / 60.0) + (GMTseconds / 3600.0);
@@ -311,7 +307,7 @@ boolean SiderealPlanets::setLocalTime(int hours, int minutes, float seconds) {
   // and DST before calling this so that we can set GMT also
   if (GmtDateInput == false) return false;
   if (DstSelected == false) return false;
-  // Cheat to do error checking, etc, to prep to set real GMT
+  // Do sanity checks on inputs first before making any changes to variables, to prep to set real GMT
   if (hours < 0 || hours > 23) return false;
   if (minutes < 0 || minutes > 59) return false;
   if (seconds < 0. || seconds > 59.999999999) return false;
